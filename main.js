@@ -11,7 +11,7 @@ function generateGrid() {
 }
 
 function paint() {
-    this.classList.add("painted");
+    if (mouseDown === true) this.classList.add("painted");
 }
 
 function promptGridSize() { 
@@ -35,12 +35,21 @@ function removeGridSquares() {
 function addEventListeners(){ 
     squares = document.querySelectorAll(".paintSquare");
     console.log(squares);
-    squares.forEach(square => square.addEventListener("mouseover", paint));
+    squares.forEach(square => square.addEventListener("mousemove", paint));
 }
 
+function clearCanvas() { 
+    squares.forEach(square => square.classList.remove("painted"));
+} 
+
 let gridSize = 16;
+let mouseDown = false;
 const gridWrapper = document.querySelector(".grid-wrapper");
 const gridSizeButton = document.querySelector(".grid-size-button")
-gridSizeButton.addEventListener("click",changeGridSize)
+const clearCanvasButton = document.querySelector(".clear-canvas-button");
+gridSizeButton.addEventListener("click", changeGridSize);
+clearCanvasButton.addEventListener("click", clearCanvas);
+document.addEventListener("mousedown", function () { mouseDown = true });
+document.addEventListener("mouseup", function () { mouseDown = false });
 generateGrid();
 addEventListeners();
